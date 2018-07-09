@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>es.davidmoros.poc</groupId>
+	<artifactId>jwt-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>jwt-service</name>
+	<description>PoC JWT - jwt-service</description>
+
+	<properties>
+		<java.version>1.8</java.version> <!-- Spring Boot specificity -->
+    	<maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<io.jsonwebtoken.jjwt.version>0.9.1</io.jsonwebtoken.jjwt.version>
+		<org.junit.jupiter.version>5.2.0</org.junit.jupiter.version>
+		<org.projectlombok.lombok.version>1.18.0</org.projectlombok.lombok.version>
+	</properties>
+
+	<dependencies>
+		<!-- Lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${org.projectlombok.lombok.version}</version><!--$NO-MVN-MAN-VER$ -->
+			<scope>provided</scope>
+		</dependency>
+		<!-- JWT -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${io.jsonwebtoken.jjwt.version}</version>
+		</dependency>
+		<!-- Test -->
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-engine</artifactId>
+		    <version>${org.junit.jupiter.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-params</artifactId>
+		    <version>${org.junit.jupiter.version}</version>
+		    <scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
