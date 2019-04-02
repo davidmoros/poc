@@ -37,3 +37,6 @@ Thumbs.db
 
 # Maven
 target/
+
+# VS Code editor
+.vscode/
