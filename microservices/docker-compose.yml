@@ -1,0 +1,87 @@
+version: '3.9'
+
+networks:
+  micro:
+    driver: bridge
+    name: micro
+
+services:
+  config-server:
+    build: ./config-server
+    image: config-server
+    container_name: config-server
+    command: docker network connect micro zipkin
+    networks: 
+      - micro
+    ports:
+      - "8081:8081"
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+        interval: 10s
+        timeout: 5s
+        retries: 5      
+  eureka-server:
+    build: ./eureka-server
+    image: eureka-server
+    container_name: eureka-server
+    networks: 
+      - micro
+    ports:
+      - "8761:8761"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+        interval: 20s
+        timeout: 5s
+        retries: 5
+  admin-server:
+    build: ./admin-server
+    image: admin-server
+    container_name: admin-server
+    networks: 
+      - micro
+    ports:
+      - "8086:8086"
+    depends_on:
+      eureka-server:
+        condition: service_healthy      
+  gateway-server:
+    build: ./gateway-server
+    image: gateway-server
+    container_name: gateway-server
+    networks: 
+      - micro
+    ports:
+      - "8090:8090"
+    depends_on:
+      eureka-server:
+        condition: service_healthy    
+  user-service:
+    build: ./user-service
+    image: user-service
+    networks: 
+      - micro
+    depends_on:
+      eureka-server:
+        condition: service_healthy    
+    deploy:
+      mode: replicated
+      replicas: 2  
+  film-service:
+    build: ./film-service
+    image: film-service
+    networks: 
+      - micro
+    depends_on:
+      eureka-server:
+        condition: service_healthy    
+  serie-service:
+    build: ./serie-service
+    image: serie-service
+    networks: 
+      - micro
+    depends_on:
+      eureka-server:
+        condition: service_healthy              

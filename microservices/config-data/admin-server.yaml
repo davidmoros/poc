@@ -1,0 +1,20 @@
+server:
+  port: 8086
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  security:
+    user:
+      name: admin
+      password: s3cr3t
+  cloud:
+    kubernetes:
+      catalog-services-watch:
+        enabled: true
+        catalogServicesWatchDelay: 5000
+      discovery:
+        service-labels:
+          type: actuator

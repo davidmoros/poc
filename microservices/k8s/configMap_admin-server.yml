@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: admin-server
+data:
+  application.yaml: |-
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+    server:
+      port: 8086
+    spring:
+      cloud:
+        kubernetes:
+          catalog-services-watch:
+            catalogServicesWatchDelay: 5000
+            enabled: true
+          discovery:
+            service-labels:
+              type: actuator
+      security:
+        user:
+          name: admin
+          password: s3cr3t
+    
+
+            

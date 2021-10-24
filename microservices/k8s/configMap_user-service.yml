@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-service
+data:
+  spring.zipkin.baseUrl: http://zipkin:9412  
+  server.port: ${PORT:0}
+  application.yaml: |-
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+    resilience4j.circuitbreaker:
+      instances:
+          serieCB:
+              registerHealthIndicator: true
+              slidingWindowSize: 10
+              permittedNumberOfCallsInHalfOpenState: 3
+              slidingWindowType: TIME_BASED
+              minimumNumberOfCalls: 4
+              waitDurationInOpenState: 5s
+              failureRateThreshold: 50
+              eventConsumerBufferSize: 10
+          filmCB:
+              registerHealthIndicator: true
+              slidingWindowSize: 10
+              permittedNumberOfCallsInHalfOpenState: 3
+              slidingWindowType: TIME_BASED
+              minimumNumberOfCalls: 4
+              waitDurationInOpenState: 5s
+              failureRateThreshold: 50
+              eventConsumerBufferSize: 10
+          allCB:
+              registerHealthIndicator: true
+              slidingWindowSize: 10
+              permittedNumberOfCallsInHalfOpenState: 3
+              slidingWindowType: TIME_BASED
+              minimumNumberOfCalls: 4
+              waitDurationInOpenState: 5s
+              failureRateThreshold: 50
+              eventConsumerBufferSize: 10            

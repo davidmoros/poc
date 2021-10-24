@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: eureka-server
+  cloud:
+    config:
+      enabled: true
+      uri: http://config-server:8081
+      username: config
+      password: s3cr3t

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: serie-service
+data:
+  application.yaml: |-
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: "*"
+    server:
+      port: ${PORT:0}
+    spring:
+      zipkin:
+        baseUrl: http://zipkin:9411

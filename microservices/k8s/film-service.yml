@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: film-service
+  labels:
+    type: actuator    
+spec:
+  selector:
+    app: film-service
+  ports: 
+    - name: film-port
+      port: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: film-service
+  labels:
+    app: film-service
+spec:
+  selector:
+    matchLabels:
+      app: film-service
+  template:
+    metadata:
+      labels:
+        app: film-service
+    spec:
+      containers:
+      - name: film-service
+        image: film-service
+        imagePullPolicy: Never
+        env:
+        - name: PORT
+          value: "8080"
+        ports:
+        - name: film-port
+          containerPort: 8080      
