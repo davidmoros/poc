@@ -63,6 +63,14 @@ https://minikube.sigs.k8s.io/docs/handbook/pushing/#7-loading-directly-to-in-clu
 
 https://stackoverflow.com/questions/42564058/how-to-use-local-docker-images-with-minikube/48999680#48999680
 
+# HELM
+
+https://artifacthub.io/packages/helm/prometheus-community/prometheus
+https://artifacthub.io/packages/helm/grafana/grafana
+https://artifacthub.io/packages/helm/grafana/loki
+https://artifacthub.io/packages/helm/grafana/promtail
+
+https://blog.marcnuri.com/instalar-prometheus-grafana-minikube
 
 # Access services
 
@@ -75,5 +83,19 @@ http://localhost:8086
 ## Zipkin
 http://zipkin:9411
 
+# Other Software
 
+## Octant
+https://octant.dev/
+
+## Prometheus
+https://prometheus.io/
+https://refactorizando.com/spring-boot-actuator-prometheus-grafana/
+
+## Graphana
+https://grafana.com/
+https://grafana.com/grafana/dashboards/10280
+https://grafana.com/grafana/dashboards/1598
+https://grafana.com/grafana/dashboards/315
+https://grafana.com/grafana/dashboards/6417
 

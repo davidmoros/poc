@@ -5,23 +5,63 @@ import es.davidmoros.poc.userservice.model.Film;
 import es.davidmoros.poc.userservice.model.Serie;
 import es.davidmoros.poc.userservice.service.UserService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import brave.ScopedSpan;
+import brave.Span;
+import brave.Tracer;
+import brave.Tracer.SpanInScope;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired 
+    Tracer tracer;
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
+        log.trace(String.format("Entering %s.%s", this.getClass().getName(), "getAll()"));
+
+        // Start a new trace or a span within an existing trace representing an operation
+        ScopedSpan scopedSpan = tracer.startScopedSpan("scopedSpan");
+        try {
+            Thread.sleep(2000);
+        } catch (RuntimeException | Error e) {
+            scopedSpan.error(e); // Unless you handle exceptions, you might not know the operation failed!
+            throw e;
+        } catch (InterruptedException e) {
+            scopedSpan.error(e);
+            e.printStackTrace();
+        } finally {
+            scopedSpan.finish(); // always finish the span
+        }
+
+        Span span = tracer.nextSpan().name("span").start();
+        // Put the span in "scope" so that downstream code such as loggers can see trace IDs
+        try (SpanInScope ws = tracer.withSpanInScope(span)) {
+            Thread.sleep(2000);
+        } catch (RuntimeException | Error e) {
+            span.error(e); // Unless you handle exceptions, you might not know the operation failed!
+            throw e;
+        } catch (InterruptedException e) {
+            scopedSpan.error(e);
+            e.printStackTrace();
+        } finally {
+            span.finish(); // note the scope is independent of the span. Always finish a span.
+        }
+
         List<User> users = userService.getAll();
         if(users.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -31,6 +71,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable("id") int id) {
+        log.trace(String.format("Entering %s.%s", this.getClass().getName(), String.format("getById(%s)", id)));
+        
         User user = userService.getUserById(id);
         if(user == null) {
             return ResponseEntity.notFound().build();

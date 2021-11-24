@@ -57,6 +57,10 @@
 			<artifactId>spring-cloud-starter-kubernetes-all</artifactId>
 			<version>1.1.10.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

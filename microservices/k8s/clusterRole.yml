@@ -4,6 +4,6 @@ metadata:
   name: api-reader
 rules:
   - apiGroups: ["", "extensions", "apps"]
-    resources: ["configmaps", "pods", "services", "endpoints", "secrets"]
-    verbs: ["get", "list", "watch"]
+    resources: ["*"]
+    verbs: ["*"]
 
